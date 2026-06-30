@@ -36,6 +36,7 @@ class AlienInvasion:
 
         while self.running:
             self._check_events()
+            self.ship.move_ship()
             self._update_screen()
 
             self.clock.tick(60)
@@ -49,6 +50,35 @@ class AlienInvasion:
                 self.running = False
                 sys.exit()
             if event.type == pygame.KEYDOWN:
+                self._check_keydown_events(event)
+            if event.type == pygame.KEYUP:
+                self._check_keyup_events(event)
+
+    def _check_keyup_events(self, event):
+        """"Checks key-up events and sets flags accordingly."""
+        match event.key:
+            case pygame.K_w:
+                self.ship.moving_up = False
+            case pygame.K_s:
+                self.ship.moving_down = False
+            case pygame.K_d:
+                self.ship.moving_right = False
+            case pygame.K_a:
+                self.ship.moving_left = False
+
+    def _check_keydown_events(self, event):
+        """"Checks the keydown events and sets flags accordingly."""
+        match event.key:
+            case pygame.K_w:
+                self.ship.moving_up = True
+            case pygame.K_s:
+                self.ship.moving_down = True
+            case pygame.K_d:
+                self.ship.moving_right = True
+            case pygame.K_a:
+                self.ship.moving_left = True
+        if event.key == pygame.K_q:
+            sys.exit()
 
     def _update_screen(self):
         """"Updates images on the screen and flips to new screens."""

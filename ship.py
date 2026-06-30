@@ -30,11 +30,11 @@ class Ship:
     def move_ship(self):
         """"Move the ship depending on which key is pressed."""
 
-        if self.moving_up:
+        if self.moving_up and self.position.top > 0:
             self.position.top -= self.speed
-        if self.moving_down:
+        if self.moving_down and self.position.bottom < self.screen_rect.bottom:
             self.position.top += self.speed
-        if self.moving_right:
+        if self.moving_right and self.position.right < self.screen_rect.right:
             self.position.right += self.speed
-        if self.moving_left:
+        if self.moving_left and self.position.left > 0:
             self.position.right -= self.speed
