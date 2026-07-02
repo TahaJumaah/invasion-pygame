@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from controls import Controls
+from enemy import Enemy
 
 
 class AlienInvasion:
@@ -22,6 +23,7 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode(self.game_settings.screen_res)
 
         self.ship = Ship(self)
+        self.enemy = Enemy(self)
         self.controls = Controls()
 
         # self.controls.get_key()
@@ -38,6 +40,7 @@ class AlienInvasion:
             self._check_events()
             self.ship.move_ship()
             self._update_screen()
+            self._collision_check()
 
             self.clock.tick(60)
 
@@ -85,8 +88,13 @@ class AlienInvasion:
         self.screen.fill(self.game_settings.bg_color)
 
         self.ship.blitme()
+        self.enemy.blitme()
 
         pygame.display.flip()
+
+    def _collision_check(self):
+        if self.ship.position.colliderect(self.enemy.position):
+            print("book ye ded")
 
 
 if __name__ == "__main__":

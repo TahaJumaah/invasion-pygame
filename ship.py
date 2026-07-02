@@ -1,5 +1,6 @@
 import pygame
 from controls import Controls
+from bullet import Bullet
 
 
 class Ship:
@@ -14,6 +15,7 @@ class Ship:
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+        self.firing_bullets = False
 
         self.screen: pygame.Surface = ai_game.screen
         self.screen_rect: pygame.Rect = ai_game.screen.get_rect()
@@ -23,18 +25,26 @@ class Ship:
 
         self.position.midbottom = self.screen_rect.midbottom
 
+        self.bullet = Bullet(self, ai_game)
+
     def blitme(self):
         """"Draw the ship at its current location"""
         self.screen.blit(self.image, self.position)
+        self.screen.blit(self.bullet.image, self.bullet.position)
 
     def move_ship(self):
         """"Move the ship depending on which key is pressed."""
 
         if self.moving_up and self.position.top > 0:
             self.position.top -= self.speed
+            self.firing_bullets = True
+
         if self.moving_down and self.position.bottom < self.screen_rect.bottom:
             self.position.top += self.speed
+            self.firing_bullets = False
+
         if self.moving_right and self.position.right < self.screen_rect.right:
             self.position.right += self.speed
+
         if self.moving_left and self.position.left > 0:
             self.position.right -= self.speed
